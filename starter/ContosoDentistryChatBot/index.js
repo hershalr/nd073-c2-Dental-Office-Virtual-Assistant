@@ -68,10 +68,19 @@ server.get('/', (_req, res) => {
 });
 
 server.post('/api/messages', async (req, res) => {
+    console.log('[api/messages] hit', {
+        hasAuth: !!(req.headers && req.headers.authorization),
+        activityType: req.body && req.body.type,
+        text: req.body && req.body.text
+    });
     try {
-        await adapter.process(req, res, (context) => myBot.run(context));
+        await adapter.process(req, res, async (context) => {
+            console.log('[api/messages] authenticated turn', context.activity && context.activity.type);
+            await myBot.run(context);
+        });
+        console.log('[api/messages] process finished');
     } catch (err) {
-        console.error('[api/messages]', err);
+        console.error('[api/messages] ERROR', err);
         if (!res.headersSent) {
             res.status(500).send('Bot error');
         }
