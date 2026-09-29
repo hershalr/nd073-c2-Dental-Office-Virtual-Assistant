@@ -19,7 +19,7 @@
         "botbuilder": "^4.22.3",
         "botbuilder-ai": "^4.22.3",
         "dotenv": "^8.2.0",
-        "restify": "^11.1.0"
+        "express": "^4.22.3"
     },
     "devDependencies": {
         "eslint": "^7.0.0",
