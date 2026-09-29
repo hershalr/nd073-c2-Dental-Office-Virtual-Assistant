@@ -15,7 +15,7 @@ const { DentaBot } = require('./bot');
 console.log('[startup] Node', process.version);
 console.log('[startup] AppId set:', !!process.env.MicrosoftAppId);
 console.log('[startup] AppPassword set:', !!process.env.MicrosoftAppPassword);
-console.log('[startup] AppType:', process.env.MicrosoftAppType || '(default MultiTenant)');
+console.log('[startup] AppType:', process.env.MicrosoftAppType || 'MultiTenant');
 console.log('[startup] AppTenantId set:', !!process.env.MicrosoftAppTenantId);
 console.log('[startup] QnA host set:', !!process.env.QnAEndpointHostName);
 console.log('[startup] QnA kb set:', !!process.env.QnAKnowledgebaseId);
