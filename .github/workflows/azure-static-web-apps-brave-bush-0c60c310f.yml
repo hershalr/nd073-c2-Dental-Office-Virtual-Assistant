@@ -1,13 +1,9 @@
 name: Azure Static Web Apps CI/CD
 
+# ODL lab Static Web App was deleted when the session ended.
+# Keep this workflow file for submission evidence; run manually only.
 on:
-  push:
-    branches:
-      - master
-  pull_request:
-    types: [opened, synchronize, reopened, closed]
-    branches:
-      - master
+  workflow_dispatch:
 
 jobs:
   build_and_deploy_job:

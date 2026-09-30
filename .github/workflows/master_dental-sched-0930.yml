@@ -5,10 +5,9 @@
 
 name: Build and deploy Node.js app to Azure Web App - dental-sched-0930
 
+# ODL lab App Service dental-sched-0930 is gone after session end.
+# Keep this workflow for CI/CD evidence; run manually only.
 on:
-  push:
-    branches:
-      - master
   workflow_dispatch:
 
 jobs:
