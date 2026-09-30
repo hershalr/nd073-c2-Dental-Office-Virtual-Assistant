@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 const { ActivityHandler, MessageFactory } = require('botbuilder');
-const { QnAMaker } = require('botbuilder-ai');
+const { CustomQuestionAnswering } = require('botbuilder-ai');
 const DentistScheduler = require('./dentistscheduler');
 const IntentRecognizer = require('./intentrecognizer');
 
@@ -13,7 +13,8 @@ class DentaBot extends ActivityHandler {
 
         const qna = configuration.QnAConfiguration || {};
         this.qnaEnabled = !!(qna.host && qna.knowledgeBaseId && qna.endpointKey);
-        this.qnaMaker = this.qnaEnabled ? new QnAMaker(qna, qnaOptions) : null;
+        // Language Custom question answering — not classic QnAMaker generateAnswer
+        this.qnaMaker = this.qnaEnabled ? new CustomQuestionAnswering(qna, qnaOptions) : null;
 
         const luis = configuration.LuisConfiguration || {};
         this.luisEnabled = !!(luis.applicationId && luis.endpointKey && luis.endpoint);
