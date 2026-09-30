@@ -11,13 +11,23 @@ class DentaBot extends ActivityHandler {
         super();
         if (!configuration) throw new Error('[DentaBot]: Missing parameter. configuration is required');
 
-        this.qnaMaker = new QnAMaker(configuration.QnAConfiguration, qnaOptions);
-        this.scheduler = new DentistScheduler(configuration.SchedulerConfiguration);
-        this.intentRecognizer = new IntentRecognizer(configuration.LuisConfiguration);
+        const qna = configuration.QnAConfiguration || {};
+        this.qnaEnabled = !!(qna.host && qna.knowledgeBaseId && qna.endpointKey);
+        this.qnaMaker = this.qnaEnabled ? new QnAMaker(qna, qnaOptions) : null;
+
+        const luis = configuration.LuisConfiguration || {};
+        this.luisEnabled = !!(luis.applicationId && luis.endpointKey && luis.endpoint);
+        this.intentRecognizer = this.luisEnabled ? new IntentRecognizer(luis) : null;
+
+        this.scheduler = new DentistScheduler(configuration.SchedulerConfiguration || {});
 
         this.onMessage(async (context, next) => {
-            const qnaResults = await this.qnaMaker.getAnswers(context);
-            const luisResult = await this.intentRecognizer.executeLuisQuery(context);
+            const qnaResults = this.qnaEnabled
+                ? await this.qnaMaker.getAnswers(context)
+                : [];
+            const luisResult = this.luisEnabled
+                ? await this.intentRecognizer.executeLuisQuery(context)
+                : { intents: {} };
 
             let topIntent = 'None';
             let topScore = 0;
